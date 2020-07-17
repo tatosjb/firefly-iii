@@ -1,6 +1,6 @@
 /*
  * charts.js
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -88,6 +88,22 @@ function lineChart(URI, container) {
     var colorData = true;
     var options = $.extend(true, {}, defaultChartOptions);
     var chartType = 'line';
+
+    drawAChart(URI, container, chartType, options, colorData);
+}
+
+/**
+ * Function to draw a line chart that doesn't start at ZERO.
+ * @param URI
+ * @param container
+ */
+function lineNoStartZeroChart(URI, container) {
+    "use strict";
+
+    var colorData = true;
+    var options = $.extend(true, {}, defaultChartOptions);
+    var chartType = 'line';
+    options.scales.yAxes[0].ticks.beginAtZero = false;
 
     drawAChart(URI, container, chartType, options, colorData);
 }
@@ -358,7 +374,20 @@ function drawAChart(URI, container, chartType, options, colorData) {
 
     $.getJSON(URI).done(function (data) {
         containerObj.removeClass('general-chart-error');
-        if (data.labels.length === 0) {
+
+        // if result is empty array, or the labels array is empty, show error.
+        // console.log(URI);
+        // console.log(data.length);
+        // console.log(typeof data.labels);
+        // console.log(data.labels.length);
+        if (
+            // is undefined
+            typeof data === 'undefined' ||
+            // is empty
+            0 === data.length ||
+            // isn't empty but contains no labels
+            (typeof data === 'object' && typeof data.labels === 'object' && 0 === data.labels.length)
+        ) {
             // remove the chart container + parent
             var holder = $('#' + container).parent().parent();
             if (holder.hasClass('box') || holder.hasClass('box-body')) {

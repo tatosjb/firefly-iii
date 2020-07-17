@@ -1,7 +1,7 @@
 <?php
 /**
  * UserNavigation.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -39,10 +39,6 @@ use Log;
  */
 trait UserNavigation
 {
-
-    //if (!$this->isEditableAccount($account)) {
-    //            return $this->redirectAccountToAccount($account); // @codeCoverageIgnore
-    //        }
 
     /**
      * Will return false if you cant edit this account type.
@@ -97,8 +93,8 @@ trait UserNavigation
         /** @var Transaction $transaction */
         foreach ($transactions as $transaction) {
             $type = $transaction->account->accountType->type;
-            if (!in_array($type, $ignore)) {
-                return redirect(route('accounts.show', [$transaction->account_id]));
+            if (!in_array($type, $ignore, true)) {
+                return redirect(route('accounts.edit', [$transaction->account_id]));
             }
         }
 
@@ -166,68 +162,6 @@ trait UserNavigation
         Log::debug(sprintf('Return direct link %s', $uri));
         return $uri;
     }
-    //
-    //    /**
-    //     * Redirect to asset account that transaction belongs to.
-    //     *
-    //     * @param TransactionGroup $group
-    //     *
-    //     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-    //     * @codeCoverageIgnore
-    //     */
-    //    protected function redirectToAccount(TransactionGroup $group)
-    //    {
-    //        $journals = $group->transactionJournals;
-    //        $first    = $journals->first();
-    //
-    //        if (null === $first) {
-    //            return redirect(route('index'));
-    //        }
-    //
-    //        $valid        = [AccountType::DEFAULT, AccountType::ASSET];
-    //        $transactions = $journal->transactions;
-    //        /** @var Transaction $transaction */
-    //        foreach ($transactions as $transaction) {
-    //            $account = $transaction->account;
-    //            if (in_array($account->accountType->type, $valid, true)) {
-    //                return redirect(route('accounts.show', [$account->id]));
-    //            }
-    //        }
-    //        // @codeCoverageIgnoreStart
-    //        session()->flash('error', (string)trans('firefly.cannot_redirect_to_account'));
-    //
-    //        return redirect(route('index'));
-    //        // @codeCoverageIgnoreEnd
-    //    }
-    //
-    //    /**
-    //     * @param Account $account
-    //     *
-    //     * @return RedirectResponse|\Illuminate\Routing\Redirector
-    //     * @codeCoverageIgnore
-    //     */
-    //    protected function redirectToOriginalAccount(Account $account)
-    //    {
-    //        /** @var Transaction $transaction */
-    //        $transaction = $account->transactions()->first();
-    //        if (null === $transaction) {
-    //            app('session')->flash('error', trans('firefly.account_missing_transaction', ['name' => e($account->name), 'id' => $account->id]));
-    //            Log::error(sprintf('Expected a transaction. Account #%d has none. BEEP, error.', $account->id));
-    //
-    //            return redirect(route('index'));
-    //        }
-    //
-    //        $journal = $transaction->transactionJournal;
-    //        /** @var Transaction $opposingTransaction */
-    //        $opposingTransaction = $journal->transactions()->where('transactions.id', '!=', $transaction->id)->first();
-    //
-    //        if (null === $opposingTransaction) {
-    //            app('session')->flash('error', trans('firefly.account_missing_transaction', ['name' => e($account->name), 'id' => $account->id]));
-    //            Log::error(sprintf('Expected an opposing transaction. Account #%d has none. BEEP, error.', $account->id));
-    //        }
-    //
-    //        return redirect(route('accounts.show', [$opposingTransaction->account_id]));
-    //    }
 
     /**
      * @param string $identifier
@@ -236,12 +170,12 @@ trait UserNavigation
      */
     protected function rememberPreviousUri(string $identifier): ?string
     {
-        $return = null;
+        $return = app('url')->previous();
         /** @var ViewErrorBag $errors */
         $errors    = session()->get('errors');
-        $forbidden = ['json'];
+        $forbidden = ['json', 'debug'];
         if ((null === $errors || (null !== $errors && 0 === $errors->count())) && !Str::contains($return, $forbidden)) {
-            $return = app('url')->previous();
+            Log::debug(sprintf('Saving URL %s under key %s', $return, $identifier));
             session()->put($identifier, $return);
         }
         return $return;

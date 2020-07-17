@@ -1,7 +1,7 @@
 <?php
 /**
  * DeleteEmptyGroups.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2020 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -25,8 +25,8 @@ namespace FireflyIII\Console\Commands\Correction;
 
 use Exception;
 use FireflyIII\Models\TransactionGroup;
-use FireflyIII\Models\TransactionJournal;
 use Illuminate\Console\Command;
+use Log;
 
 /**
  * Class DeleteEmptyGroups
@@ -49,18 +49,21 @@ class DeleteEmptyGroups extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
      * @throws Exception;
+     *
+     * @return int
      */
     public function handle(): int
     {
-        $start  = microtime(true);
-        $groupIds  =
-            TransactionGroup
-            ::leftJoin('transaction_journals','transaction_groups.id','=','transaction_journals.transaction_group_id')
+        Log::debug(sprintf('Now in %s', __METHOD__));
+        $start = microtime(true);
+        $groupIds
+               = TransactionGroup
+            ::leftJoin('transaction_journals', 'transaction_groups.id', '=', 'transaction_journals.transaction_group_id')
             ->whereNull('transaction_journals.id')->get(['transaction_groups.id'])->pluck('id')->toArray();
 
         $total = count($groupIds);
+        Log::debug(sprintf('Count is %d', $total));
         if ($total > 0) {
             $this->info(sprintf('Deleted %d empty transaction group(s).', $total));
 

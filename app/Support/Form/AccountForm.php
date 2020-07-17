@@ -1,7 +1,7 @@
 <?php
 /**
  * AccountForm.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -228,16 +228,20 @@ class AccountForm
 
         // get all asset accounts:
         $repository    = $this->getAccountRepository();
-        $types         = [AccountType::ASSET, AccountType::DEFAULT];
+        $types         = [AccountType::ASSET, AccountType::DEFAULT, AccountType::LOAN, AccountType::MORTGAGE, AccountType::DEBT];
         $assetAccounts = $repository->getAccountsByType($types);
         $grouped       = [];
         // group accounts:
         /** @var Account $account */
         foreach ($assetAccounts as $account) {
             $role = $repository->getMetaValue($account, 'account_role');
-            if (null === $role) {
+            if (null === $role && in_array($account->accountType->type, [AccountType::LOAN, AccountType::MORTGAGE, AccountType::DEBT], true)) {
+                $role = sprintf('l_%s', $account->accountType->type);
+            }
+            if (null === $role && !in_array($account->accountType->type, [AccountType::LOAN, AccountType::MORTGAGE, AccountType::DEBT], true)) {
                 $role = 'no_account_type';
             }
+
             $key                         = (string)trans(sprintf('firefly.opt_group_%s', $role));
             $grouped[$key][$account->id] = $account->name;
         }

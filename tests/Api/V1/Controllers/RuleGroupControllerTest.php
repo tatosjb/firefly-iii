@@ -1,7 +1,7 @@
 <?php
 /**
  * RuleGroupControllerTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -60,6 +60,7 @@ class RuleGroupControllerTest extends TestCase
     {
         parent::setUp();
         Passport::actingAs($this->user());
+        $this->mockDefaultConfiguration();
         Log::info(sprintf('Now in %s.', get_class($this)));
     }
 
@@ -175,7 +176,7 @@ class RuleGroupControllerTest extends TestCase
         Log::warning('The following error is part of a test.');
         $response = $this->get(route('api.v1.rule_groups.test', [$group->id]), ['Accept' => 'application/json']);
         $response->assertStatus(500);
-        $response->assertSee('{"message":"No rules in this rule group.","exception":"FireflyIII\\\\Exceptions\\\\FireflyException"');
+        $response->assertSee('200023');
     }
 
     /**

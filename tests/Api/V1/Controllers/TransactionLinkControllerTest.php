@@ -1,7 +1,7 @@
 <?php
 /**
  * TransactionLinkControllerTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -51,6 +51,7 @@ class TransactionLinkControllerTest extends TestCase
     {
         parent::setUp();
         Passport::actingAs($this->user());
+        $this->mockDefaultConfiguration();
         Log::info(sprintf('Now in %s.', get_class($this)));
 
     }
@@ -260,7 +261,7 @@ class TransactionLinkControllerTest extends TestCase
         Log::warning('The following error is part of a test.');
         $response = $this->post(route('api.v1.transaction_links.store'), $data, ['Accept' => 'application/json']);
         $response->assertStatus(500);
-        $response->assertSee('Source or destination is NULL.'); // the creation moment.
+        $response->assertSee('200024'); // the creation moment.
         $response->assertHeader('Content-Type', 'application/json');
     }
 
@@ -384,7 +385,7 @@ class TransactionLinkControllerTest extends TestCase
         Log::warning('The following error is part of a test.');
         $response = $this->put(route('api.v1.transaction_links.update', $journalLink->id), $data, ['Accept' => 'application/json']);
         $response->assertStatus(500);
-        $response->assertSee('Source or destination is NULL.'); // the creation moment.
+        $response->assertSee('200024'); // the creation moment.
         $response->assertHeader('Content-Type', 'application/json');
     }
 

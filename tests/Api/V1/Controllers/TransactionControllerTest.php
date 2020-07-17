@@ -1,7 +1,7 @@
 <?php
 /**
  * TransactionControllerTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -53,6 +53,7 @@ class TransactionControllerTest extends TestCase
     {
         parent::setUp();
         Passport::actingAs($this->user());
+        $this->mockDefaultConfiguration();
         Log::info(sprintf('Now in %s.', get_class($this)));
     }
 
@@ -720,8 +721,8 @@ class TransactionControllerTest extends TestCase
         $apiRepos->shouldReceive('setUser')->atLeast()->once();
 
         $validator->shouldReceive('setTransactionType')->withArgs(['invalid'])->atLeast()->once();
-        $validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
-        $validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
 
         $data = [
             'group_title'  => 'Empty',
@@ -779,8 +780,8 @@ class TransactionControllerTest extends TestCase
 
         $validator->shouldReceive('setTransactionType')->withArgs(['withdrawal'])->atLeast()->once();
         $validator->shouldReceive('setTransactionType')->withArgs(['deposit'])->atLeast()->once();
-        $validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
-        $validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
 
         // some mock calls:
         $journalRepos->shouldReceive('setUser')->atLeast()->once();
@@ -845,8 +846,8 @@ class TransactionControllerTest extends TestCase
         $apiRepos     = $this->mock(JournalAPIRepositoryInterface::class);
 
         $validator->shouldReceive('setTransactionType')->withArgs(['invalid'])->atLeast()->once();
-        $validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
-        $validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateSource')->withArgs([null, null])->atLeast()->once()->andReturn(true);
+        //$validator->shouldReceive('validateDestination')->withArgs([null, null])->atLeast()->once()->andReturn(true);
 
         // some mock calls:
         $journalRepos->shouldReceive('setUser')->atLeast()->once();

@@ -1,7 +1,7 @@
 <?php
 /**
  * ToAccountIsTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -46,8 +46,7 @@ class ToAccountIsTest extends TestCase
         /** @var TransactionJournal $journal */
         $journal    = $this->user()->transactionJournals()->inRandomOrder()->first();
         $account    = $this->user()->accounts()->inRandomOrder()->first();
-        $collection = new Collection([$account]);
-        $repository->shouldReceive('getJournalDestinationAccounts')->once()->andReturn($collection);
+        $repository->shouldReceive('getDestinationAccount')->once()->andReturn($account);
 
 
         $trigger = ToAccountIs::makeFromStrings($account->name, false);
@@ -65,8 +64,7 @@ class ToAccountIsTest extends TestCase
         /** @var TransactionJournal $journal */
         $journal    = $this->user()->transactionJournals()->inRandomOrder()->first();
         $account    = $this->user()->accounts()->inRandomOrder()->first();
-        $collection = new Collection([$account]);
-        $repository->shouldReceive('getJournalDestinationAccounts')->once()->andReturn($collection);
+        $repository->shouldReceive('getDestinationAccount')->once()->andReturn($account);
 
         $trigger = ToAccountIs::makeFromStrings('some name' . random_int(1, 234), false);
         $result  = $trigger->triggered($journal);

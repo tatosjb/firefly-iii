@@ -1,7 +1,7 @@
 <?php
 /**
  * FromAccountEndsTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -45,8 +45,7 @@ class FromAccountEndsTest extends TestCase
         /** @var TransactionJournal $journal */
         $journal    = $this->user()->transactionJournals()->inRandomOrder()->first();
         $account    = $this->user()->accounts()->inRandomOrder()->first();
-        $collection = new Collection([$account]);
-        $repository->shouldReceive('getJournalSourceAccounts')->once()->andReturn($collection);
+        $repository->shouldReceive('getSourceAccount')->once()->andReturn($account);
 
         $trigger = FromAccountEnds::makeFromStrings(substr($account->name, -3), false);
         $result  = $trigger->triggered($journal);
@@ -63,8 +62,7 @@ class FromAccountEndsTest extends TestCase
         /** @var TransactionJournal $journal */
         $journal    = $this->user()->transactionJournals()->inRandomOrder()->first();
         $account    = $this->user()->accounts()->inRandomOrder()->first();
-        $collection = new Collection([$account]);
-        $repository->shouldReceive('getJournalSourceAccounts')->once()->andReturn($collection);
+        $repository->shouldReceive('getSourceAccount')->once()->andReturn($account);
 
         $trigger = FromAccountEnds::makeFromStrings('bla-bla-bla' . $account->name, false);
         $result  = $trigger->triggered($journal);
@@ -81,8 +79,7 @@ class FromAccountEndsTest extends TestCase
         /** @var TransactionJournal $journal */
         $journal    = $this->user()->transactionJournals()->inRandomOrder()->first();
         $account    = $this->user()->accounts()->inRandomOrder()->first();
-        $collection = new Collection([$account]);
-        $repository->shouldReceive('getJournalSourceAccounts')->once()->andReturn($collection);
+        $repository->shouldReceive('getSourceAccount')->once()->andReturn($account);
 
         $trigger = FromAccountEnds::makeFromStrings('some name' . random_int(1, 234), false);
         $result  = $trigger->triggered($journal);

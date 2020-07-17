@@ -1,7 +1,7 @@
 <?php
 /**
  * NavigationTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -73,7 +73,7 @@ class NavigationTest extends TestCase
             ['1M', 0, '2019-01-30', '2019-02-28'], // jump to end of next month.
             ['1M', 0, '2019-01-31', '2019-02-28'], // jump to end of next month.
             ['1M', 0, '2019-02-01', '2019-03-01'],
-            ['1M', 1, '2019-02-01', '2019-03-31'], // weird but OK.
+            ['1M', 1, '2019-02-01', '2019-04-01'], // fixed
             ['1M', 2, '2019-01-01', '2019-04-01'],
 
             ['quarter', 0, '2019-01-01', '2019-04-01'],

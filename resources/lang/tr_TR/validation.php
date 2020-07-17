@@ -2,7 +2,7 @@
 
 /**
  * validation.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 return [
     'iban'                           => 'Bu geçerli bir IBAN değil.',
-    'zero_or_more'                   => 'The value cannot be negative.',
-    'date_or_time'                   => 'The value must be a valid date or time value (ISO 8601).',
+    'zero_or_more'                   => 'Değer negatif olamaz.',
+    'date_or_time'                   => 'Değer geçerli tarih veya zaman formatı olmalıdır (ISO 8601).',
     'source_equals_destination'      => 'Kaynak hesabın hedef hesap eşittir.',
     'unique_account_number_for_user' => 'Bu hesap numarası zaten kullanılmaktadır.',
     'unique_iban_for_user'           => 'Bu IBAN numarası zaten kullanılmaktadır.',
@@ -33,7 +33,7 @@ return [
     'rule_trigger_value'             => 'Bu eylem, seçili işlem için geçersizdir.',
     'rule_action_value'              => 'Bu eylem seçili işlem için geçersizdir.',
     'file_already_attached'          => 'Yüklenen dosya ":name" zaten bu nesneye bağlı.',
-    'file_attached'                  => 'Successfully uploaded file ":name".',
+    'file_attached'                  => '":name" dosyası başarıyla yüklendi.',
     'must_exist'                     => 'ID alanı :attribute veritabanın içinde yok.',
     'all_accounts_equal'             => 'Bu alandaki tüm hesapları eşit olmalıdır.',
     'group_title_mandatory'          => 'A group title is mandatory when there is more than one transaction.',
@@ -57,7 +57,6 @@ return [
     'at_least_one_action'            => 'Kural en az bir eylem olması gerekir.',
     'base64'                         => 'Bu geçerli Base64 olarak kodlanmış veri değildir.',
     'model_id_invalid'               => 'Verilen kimlik bu model için geçersiz görünüyor.',
-    'more'                           => ':attribute sıfırdan büyük olmak zorundadır.',
     'less'                           => ':attribute  10.000.000 den daha az olmalıdır',
     'active_url'                     => ':attribute geçerli bir URL değil.',
     'after'                          => ':attribute :date tarihinden sonrası için tarihlendirilmelidir.',
@@ -121,19 +120,21 @@ return [
     'string'                         => ':attribute bir dizi olmalıdır.',
     'url'                            => ':attribute biçimi geçersiz.',
     'timezone'                       => ':attribute geçerli bir bölge olmalıdır.',
-    '2fa_code'                    => ':attribute alanı geçersiz.',
-    'dimensions'                  => ':attribute geçersiz görüntü boyutlarına sahip.',
-    'distinct'                    => ':attribute alanı yinelenen bir değere sahip.',
-    'file'                        => ':attribute bir dosya olmalıdır.',
-    'in_array'                    => ':attribute alanı :other içinde olamaz.',
-    'present'                     => ':attribute alanı mevcut olmalıdır.',
-    'amount_zero'                 => 'Toplam tutarı sıfır olamaz.',
-    'current_target_amount'       => 'The current amount must be less than the target amount.',
-    'unique_piggy_bank_for_user'  => 'Kumbara adı benzersiz olmalıdır.',
-    'secure_password'             => 'This is not a secure password. Please try again. For more information, visit https://bit.ly/FF3-password-security',
-    'valid_recurrence_rep_type'   => 'Invalid repetition type for recurring transactions.',
-    'valid_recurrence_rep_moment' => 'Invalid repetition moment for this type of repetition.',
-    'invalid_account_info'        => 'Invalid account information.',
+    '2fa_code'                       => ':attribute alanı geçersiz.',
+    'dimensions'                     => ':attribute geçersiz görüntü boyutlarına sahip.',
+    'distinct'                       => ':attribute alanı yinelenen bir değere sahip.',
+    'file'                           => ':attribute bir dosya olmalıdır.',
+    'in_array'                       => ':attribute alanı :other içinde olamaz.',
+    'present'                        => ':attribute alanı mevcut olmalıdır.',
+    'amount_zero'                    => 'Toplam tutarı sıfır olamaz.',
+    'current_target_amount'          => 'The current amount must be less than the target amount.',
+    'unique_piggy_bank_for_user'     => 'Kumbara adı benzersiz olmalıdır.',
+    'unique_object_group'            => 'The group name must be unique',
+
+    'secure_password'                => 'This is not a secure password. Please try again. For more information, visit https://bit.ly/FF3-password-security',
+    'valid_recurrence_rep_type'      => 'Invalid repetition type for recurring transactions.',
+    'valid_recurrence_rep_moment'    => 'Invalid repetition moment for this type of repetition.',
+    'invalid_account_info'           => 'Invalid account information.',
     'attributes'                     => [
         'email'                   => 'E-posta adresi',
         'description'             => 'Açıklama',
@@ -181,6 +182,7 @@ return [
     'deposit_source_bad_data'  => 'Could not find a valid source account when searching for ID ":id" or name ":name".',
     'deposit_dest_need_data'   => 'Need to get a valid destination account ID and/or valid destination account name to continue.',
     'deposit_dest_bad_data'    => 'Could not find a valid destination account when searching for ID ":id" or name ":name".',
+    'deposit_dest_wrong_type'  => 'The submitted destination account is not of the right type.',
 
     'transfer_source_need_data' => 'Need to get a valid source account ID and/or valid source account name to continue.',
     'transfer_source_bad_data'  => 'Could not find a valid source account when searching for ID ":id" or name ":name".',
@@ -192,6 +194,16 @@ return [
     'ob_dest_need_data'   => 'Need to get a valid destination account ID and/or valid destination account name to continue.',
     'ob_dest_bad_data'    => 'Could not find a valid destination account when searching for ID ":id" or name ":name".',
 
-    'generic_invalid_source' => 'You can\'t use this account as the source account.',
+    'generic_invalid_source'      => 'You can\'t use this account as the source account.',
     'generic_invalid_destination' => 'You can\'t use this account as the destination account.',
+
+    'gte.numeric' => 'The :attribute must be greater than or equal to :value.',
+    'gt.numeric'  => 'The :attribute must be greater than :value.',
+    'gte.file'    => 'The :attribute must be greater than or equal to :value kilobytes.',
+    'gte.string'  => 'The :attribute must be greater than or equal to :value characters.',
+    'gte.array'   => 'The :attribute must have :value items or more.',
+
+    'amount_required_for_auto_budget' => 'The amount is required.',
+    'auto_budget_amount_positive'     => 'The amount must be more than zero.',
+    'auto_budget_period_mandatory' => 'The auto budget period is a mandatory field.',
 ];

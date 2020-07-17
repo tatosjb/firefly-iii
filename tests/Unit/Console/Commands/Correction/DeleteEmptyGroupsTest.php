@@ -1,7 +1,7 @@
 <?php
 /**
  * DeleteEmptyGroupsTest.php
- * Copyright (c) 2019 thegrumpydictator@gmail.com
+ * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
  *
@@ -52,7 +52,6 @@ class DeleteEmptyGroupsTest extends TestCase
     {
         // assume there are no empty groups..
         $this->artisan('firefly-iii:delete-empty-groups')
-             ->expectsOutput('No empty transaction groups.')
              ->assertExitCode(0);
     }
 
